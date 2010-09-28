@@ -19,4 +19,8 @@ class Template {
 
 		include $template_full_name;
 	}
+
+	public static function show404Page() {
+		self::showPage("404", array('url' => (empty($_SERVER["HTTPS"]) ? 'http' : 'https') . '://' . $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"]));
+	}
 }
