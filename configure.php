@@ -18,3 +18,4 @@ if (!is_callable('gettext')) {
 }
 
 define('CONFIG_FILE', 'app.cfg');
+define('SOFTWARE_NAME', 'loadOdie');

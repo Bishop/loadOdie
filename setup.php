@@ -4,7 +4,7 @@ include 'configure.php';
 
 PHP_SAPI == 'cli' or die(_('Using only in console'));
 
-echo _("Welcome to loadOdie setup wizard\n\n");
+echo _(sprintf("Welcome to %s setup wizard\n\n", SOFTWARE_NAME));
 
 function prompt($prompt, $default = '') {
 	echo "{$prompt} [{$default}]:\n> ";
