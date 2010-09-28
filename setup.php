@@ -1,6 +1,6 @@
 <?php
 
-include 'configure.php';
+include dirname(__FILE__) . '/configure.php';
 
 PHP_SAPI == 'cli' or die(_('Using only in console'));
 
