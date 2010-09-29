@@ -2,16 +2,19 @@
 
 <?php Template::block('title'); ?>
 
-<?php echo _("Error 404. Address not found.") ?>
+<?php echo(_("Internal Error")); ?>
 
 <?php Template::endBlock(); ?>
 
 
 <?php Template::block('content'); ?>
 <p>
-	<?php echo _(sprintf('URL: "%s" not found at this server. Sorry.', htmlentities($url))) ?>
+	<?php echo($message); ?>
 </p>
 
+<p>
+	<a href="<?php echo FULL_REQUEST; ?>"><?php echo _('Refresh page') ?></a>
+</p>
 <p>
 	<a href="/"><?php echo _('Home page') ?></a>
 </p>

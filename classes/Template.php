@@ -35,7 +35,7 @@ class Template {
 
 	public static function show404Page() {
 		ob_end_clean();
-		self::showPage("404", array('url' => (empty($_SERVER["HTTPS"]) ? 'http' : 'https') . '://' . $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"]));
+		self::showPage("404", array('url' => FULL_REQUEST));
 		die();
 	}
 

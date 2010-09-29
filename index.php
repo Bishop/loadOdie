@@ -5,6 +5,8 @@ session_start();
 
 include dirname(__FILE__) . DIRECTORY_SEPARATOR . 'configure.php';
 
+define('FULL_REQUEST', (empty($_SERVER["HTTPS"]) ? 'http' : 'https') . '://' . $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"]);
+
 $module = 'files';
 $action = '';
 $params = array();

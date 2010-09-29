@@ -50,6 +50,10 @@ class Config {
 	public static function getConfig($param) {
 		return array_key_exists($param, self::$config) ? self::$config[$param] : '';
 	}
+
+	public static function getAll() {
+		return self::$config;
+	}
 }
 
 Config::setConfig(parse_ini_file(ROOT_DIR . CONFIG_FILE));
