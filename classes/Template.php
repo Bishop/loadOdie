@@ -20,7 +20,15 @@ class Template {
 		include $template_full_name;
 	}
 
+	public static function showErrorPage($message) {
+		ob_end_clean();
+		self::showPage("internal_error", array('message' => $message));
+		die();
+	}
+
 	public static function show404Page() {
+		ob_end_clean();
 		self::showPage("404", array('url' => (empty($_SERVER["HTTPS"]) ? 'http' : 'https') . '://' . $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"]));
+		die();
 	}
 }

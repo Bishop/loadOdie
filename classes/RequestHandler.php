@@ -6,7 +6,10 @@
  */
  
 class RequestHandler {
+	protected $default_action = '__non_exist';
+
 	public function processRequest($action, array $params) {
+		empty($action) and $action = $this->default_action;
 		if (!$this->isMethodCallable($action)) {
 			Template::show404Page();
 			return;
