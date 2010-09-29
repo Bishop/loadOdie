@@ -1,6 +1,6 @@
 <?php
 
-include dirname(__FILE__) . '/configure.php';
+include dirname(__FILE__) . DIRECTORY_SEPARATOR . 'configure.php';
 
 PHP_SAPI == 'cli' or die(_('Using only in console'));
 
@@ -17,7 +17,7 @@ function confirm($prompt, $ok = 'y') {
 }
 
 function verify_connection_sting($connection_string) {
-	return true;
+	return preg_match(CONNECTION_STRING_FORMAT, $connection_string) || !print(_('Invalid database connection string') . "\n");
 }
 
 function verify_directory($directory) {
@@ -33,7 +33,7 @@ if (file_exists(CONFIG_FILE) && !confirm(sprintf("Config file '%s' exists. Conti
 }
 
 $questions = array(
-	array('name' => 'database', 'text' => _('Database connection string'), 'default' => 'mysql://root@localhost:3306/files', 'callback' => 'verify_connection_sting'),
+	array('name' => 'database', 'text' => _('Database connection string'), 'default' => 'mysql://root:pass@localhost:3306/files', 'callback' => 'verify_connection_sting'),
 	array('name' => 'repository', 'text' => _('Files location'), 'default' => dirname(__FILE__) . DIRECTORY_SEPARATOR . 'files', 'callback' => 'verify_directory'),
 );
 
@@ -47,7 +47,7 @@ foreach ($questions as $question) {
 	$config[$question['name']] = $answer;
 }
 
-$config_file = fopen(CONFIG_FILE, 'w');
+$config_file = fopen(ROOT_DIR . CONFIG_FILE, 'w');
 foreach ($config as $option => $value) {
 	fputs($config_file, "{$option} = {$value}\n");
 }

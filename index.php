@@ -3,13 +3,13 @@
 ob_start();
 session_start();
 
-include dirname(__FILE__) . '/configure.php';
+include dirname(__FILE__) . DIRECTORY_SEPARATOR . 'configure.php';
 
 $module = 'files';
-$action = 'show_all';
+$action = '';
 $params = array();
 
-if (preg_match('!/(\w+)/(\w+)/?(.*)/?!', $_SERVER["PATH_INFO"], $chunks)) {
+if (preg_match('!/(\w+)/?(\w+)?/?(.*)/?!', $_SERVER["PATH_INFO"], $chunks)) {
 	list(, $module, $action, $params_str) = $chunks;
 
 	if ($params_str) {

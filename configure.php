@@ -7,7 +7,8 @@
  * Time: 21:54
  */
 
-define('ROOT_DIR', dirname(__FILE__));
+define('ROOT_DIR', dirname(__FILE__) . DIRECTORY_SEPARATOR);
+define('CONNECTION_STRING_FORMAT', '!^mysql://([^:@]+)(?::([^@]+))?@([^:/]+)(?::(\d+))?/(.*)$!');
 
 if (!defined('STDIN')) {
 	define('STDIN', fopen('php://stdin', 'r'));
@@ -28,7 +29,7 @@ class Autoloader {
 	}
 
 	static public function autoload($class) {
-		$file = ROOT_DIR . "/classes/$class.php";
+		$file = ROOT_DIR . "classes/$class.php";
 		if (file_exists($file)) {
 			require_once $file;
 			return true;
@@ -38,3 +39,17 @@ class Autoloader {
 }
 
 Autoloader::register();
+
+class Config {
+	protected static $config;
+
+	public static function setConfig($config) {
+		self::$config = $config;
+	}
+
+	public static function getConfig($param) {
+		return array_key_exists($param, self::$config) ? self::$config[$param] : '';
+	}
+}
+
+Config::setConfig(parse_ini_file(ROOT_DIR . CONFIG_FILE));
