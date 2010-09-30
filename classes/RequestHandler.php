@@ -15,11 +15,14 @@ class RequestHandler {
 			return;
 		}
 
-		$request_result = $this->$action();
+		$request_result = $this->$action($params);
+		$template_name = !empty($request_result['template']) ? $request_result['template'] : strtolower(get_class($this) . '_' . $action);
+
+		Template::showPage($template_name, $request_result['data']);
 	}
 
 	private function isMethodCallable($method) {
 		$reflection = new ReflectionMethod($this, $method);
-		return (bool) preg_match("/\\* @request_handler/", $reflection->getDocComment());
+		return (bool) preg_match('!\* @request_handler!', $reflection->getDocComment());
 	}
 }
