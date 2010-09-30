@@ -1,0 +1,9 @@
+<p>
+	<?php if (User::isLogged()): ?>
+		<a href="/users/profile/"><?php echo User::info('name') ?></a>
+		<a href="/users/logout/"><?php echo _("Logout") ?></a>
+	<?php else: ?>
+		<a href="/users/login/"><?php echo _("Login") ?></a>
+		<a href="/users/register/"><?php echo _("Register") ?></a>
+	<?php endif; ?>
+</p>

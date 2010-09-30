@@ -52,4 +52,9 @@ class Template {
 	protected static function inherit($name) {
 		array_push(self::$process, array('template' => $name));
 	}
+
+	protected static function incl($name) {
+		array_push(self::$process, array('include' => $name));
+		self::showPage($name);
+	}
 }
