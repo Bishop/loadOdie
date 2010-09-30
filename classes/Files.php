@@ -22,7 +22,9 @@ class Files extends RequestHandler {
 	 * @return array
 	 */
 	public function upload($params) {
-		return array('data' => $_SESSION['upload_data']);
+		$result = array('data' => $_SESSION['upload_data']);
+		unset($_SESSION['upload_data']);
+		return $result;
 	}
 
 	/**

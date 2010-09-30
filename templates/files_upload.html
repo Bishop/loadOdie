@@ -9,6 +9,14 @@
 
 <?php Template::block('content'); ?>
 
+<?php if (!empty($error_message)): ?>
+
+	<div class="b-message__error">
+		<p><?php echo _("Upload failed: ") . $error_message ?></p>
+	</div>
+
+<?php endif; ?>
+
 <?php if (isset($processed_files) && count($processed_files)): ?>
 
 	<div class="b-message__ok">
