@@ -7,6 +7,9 @@
  */
  
 class DB {
+	/**
+	 * @var PDO
+	 */
 	protected static $db = null;
 
 	private function __construct() {}
@@ -26,6 +29,10 @@ class DB {
 		}
 	}
 
+	/**
+	 * @static
+	 * @return PDO
+	 */
 	public static function getInstance() {
 		return self::$db;
 	}

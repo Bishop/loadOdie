@@ -22,7 +22,11 @@ class RequestHandler {
 	}
 
 	private function isMethodCallable($method) {
-		$reflection = new ReflectionMethod($this, $method);
-		return (bool) preg_match('!\* @request_handler!', $reflection->getDocComment());
+		try {
+			$reflection = new ReflectionMethod($this, $method);
+			return (bool) preg_match('!\* @request_handler!', $reflection->getDocComment());
+		} catch (ReflectionException $re) {
+			return false;
+		}
 	}
 }
