@@ -26,7 +26,7 @@
 		<?php foreach ($files as $file): ?>
 		<tr>
 			<td><?php echo $file['original_name'] ?></td>
-			<td><?php echo $file['size'] ?></td>
+			<td><?php echo Utils::fileSize($file['size']) ?></td>
 			<td><?php echo $file['upload'] ?></td>
 			<td><a href="/files/download/<?php echo $file['file_name'] ?>"><?php echo _("Download") ?></a></td>
 			<td><a href="/files/detail/<?php echo $file['id'] ?>"><?php echo _("Comments") ?></a></td>
