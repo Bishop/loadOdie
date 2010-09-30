@@ -1,0 +1,40 @@
+<?php Template::inherit('base_page'); ?>
+
+<?php Template::block('title'); ?>
+
+<?php echo _("Files List") ?>
+
+<?php Template::endBlock(); ?>
+
+
+<?php Template::block('content'); ?>
+
+<a class="b-button__big" href="/files/upload/"><?php echo _("Upload file") ?></a>
+
+<p><?php echo _("Public files") ?></p>
+
+<table class="b-list__files">
+	<thead>
+		<tr>
+			<th><?php echo _("File name") ?></th>
+			<th><?php echo _("Size") ?></th>
+			<th><?php echo _("Upload date") ?></th>
+			<th><?php echo _("Download url") ?></th>
+			<th><?php echo _("Comments") ?></th>
+		</tr>
+	</thead>
+		<?php foreach ($files as $file): ?>
+		<tr>
+			<td><?php echo $file['original_name'] ?></td>
+			<td><?php echo $file['size'] ?></td>
+			<td><?php echo $file['upload'] ?></td>
+			<td><a href="/files/download/<?php echo $file['file_name'] ?>"><?php echo _("Download") ?></a></td>
+			<td><a href="/files/detail/<?php echo $file['id'] ?>"><?php echo _("Comments") ?></a></td>
+		</tr>
+		<?php endforeach; ?>
+	<tbody>
+
+	</tbody>
+</table>
+
+<?php Template::endBlock(); ?>

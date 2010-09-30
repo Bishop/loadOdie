@@ -8,13 +8,14 @@
 class Files extends RequestHandler {
 	protected $default_action = 'show_all';
 
+	public $files_per_page = 25;
+
 	/**
 	 * @request_handler
 	 * @return array
 	 */
 	public function show_all($params) {
-		$this->getFiles();
-
+		return array('data' => array('files' => $this->getFiles()));
 	}
 
 	/**
@@ -31,7 +32,7 @@ class Files extends RequestHandler {
 	 * @request_handler
 	 * @return array
 	 */
-	public function put() {
+	public function put($params) {
 		$dir = rtrim(Config::getConfig('repository'), '\\/') . DIRECTORY_SEPARATOR;
 
 		$processed_files = array();
@@ -61,9 +62,10 @@ class Files extends RequestHandler {
 			if ($error != UPLOAD_ERR_OK) {
 				continue;
 			}
+
 			$file_name = uniqid();
 
-			if (move_uploaded_file($_FILES["attach"]['tmp_name'][$f], $dir . $file_name)) {
+			if (!file_exists($dir . $file_name) && move_uploaded_file($_FILES["attach"]['tmp_name'][$f], $dir . $file_name)) {
 				try {
 					$db->beginTransaction();
 
@@ -83,6 +85,8 @@ class Files extends RequestHandler {
 					$db->rollBack();
 					unlink($dir . $file_name);
 				}
+			} else {
+				$error_message .= _('Error occurred while file uploading. Please, try again') . "\n";
 			}
 		}
 
@@ -91,8 +95,8 @@ class Files extends RequestHandler {
 	}
 
 	protected function getFiles() {
-		$query = SqlBuilder::newQuery()->from('file')->select('*')->where('public', 1)->order('upload DESC')->limit(25);
+		$query = SqlBuilder::newQuery()->from('file')->select('*')->where('public', 1)->order('upload DESC')->limit($this->files_per_page);
 		$db = DB::getInstance();
-		$db->query($query->getSql())->fetchAll();
+		return $db->query($query->getSql())->fetchAll();
 	}
 }
