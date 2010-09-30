@@ -1,0 +1,37 @@
+<?php Template::inherit('base_page'); ?>
+
+<?php Template::block('title'); ?>
+
+<?php echo _("Upload file") ?>
+
+<?php Template::endBlock(); ?>
+
+
+<?php Template::block('content'); ?>
+
+<?php if (isset($processed_files) && count($processed_files)): ?>
+
+	<div class="b-message__ok">
+		<p><?php echo _("Success uploaded files:") ?></p>
+
+		<?php foreach ($processed_files as $file): ?>
+
+			<p><?php echo $file ?></p>
+
+		<?php endforeach; ?>
+
+	</div>
+
+<?php endif; ?>
+
+<form enctype="multipart/form-data" method="post" action="/files/put">
+	<label for="attach"><?php echo _("Select file:") ?></label>
+	<input type="file" name="attach[]" id="attach">
+	<br>
+	<label for="description"><?php echo _("Description:") ?></label>
+	<textarea name="description" id="description" rows="5" cols="80"></textarea>
+	<br>
+	<input type="submit" value="<?php echo _("Upload file") ?>">
+</form>
+
+<?php Template::endBlock(); ?>

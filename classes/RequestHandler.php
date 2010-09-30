@@ -16,6 +16,13 @@ class RequestHandler {
 		}
 
 		$request_result = $this->$action($params);
+
+		if (!empty($request_result['redirect'])) {
+			header('location: ' . $request_result['redirect']);
+			$_SESSION['upload_data'] = $request_result['data'];
+			die();
+		}
+
 		$template_name = !empty($request_result['template']) ? $request_result['template'] : strtolower(get_class($this) . '_' . $action);
 
 		Template::showPage($template_name, $request_result['data']);
