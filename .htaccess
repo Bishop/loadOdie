@@ -1,7 +1,17 @@
+Options -Indexes
+
+<FilesMatch "\.(html?|po|mo|pot|cfg)$">
+	Order Deny,Allow
+	Deny from all
+</FilesMatch>
+
+
 RewriteEngine On
 
 RewriteBase /
 
 RewriteRule ^(index\.php)		$1 [L]
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule ^(.*)$				index.php/$1
 
