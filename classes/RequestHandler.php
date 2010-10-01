@@ -16,14 +16,15 @@ class RequestHandler {
 		}
 
 		$request_result = $this->$action($params);
+		$class = strtolower(get_class($this));
 
 		if (!empty($request_result['redirect'])) {
-			header('location: ' . $request_result['redirect']);
-			User::storeFormData($request_result['data']);
+			header("location: /$class/{$request_result['redirect']}");
+			empty($request_result['data']) or User::storeFormData($request_result['data']);
 			die();
 		}
 
-		$template_name = !empty($request_result['template']) ? $request_result['template'] : strtolower(get_class($this) . '_' . $action);
+		$template_name = !empty($request_result['template']) ? $request_result['template'] : $class . '_' . $action;
 
 		Template::showPage($template_name, $request_result['data']);
 	}
