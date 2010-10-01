@@ -19,7 +19,7 @@ class RequestHandler {
 
 		if (!empty($request_result['redirect'])) {
 			header('location: ' . $request_result['redirect']);
-			$_SESSION['upload_data'] = $request_result['data'];
+			User::storeFormData($request_result['data']);
 			die();
 		}
 

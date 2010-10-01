@@ -10,7 +10,15 @@ class User {
 		return !empty($_SESSION['user']['id']);
 	}
 
-	public static function info($p) {
-		return array_key_exists($p, $_SESSION['user']) ? $_SESSION['user'][$p] : '';
+	public static function info($field) {
+		return array_key_exists($field, $_SESSION['user']) ? $_SESSION['user'][$field] : '';
+	}
+
+	public static function getFormData() {
+		return isset($_SESSION['post_data']) ? $_SESSION['post_data'] : array();
+	}
+
+	public static function storeFormData($data) {
+		$_SESSION['post_data'] = $data;
 	}
 }

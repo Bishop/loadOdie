@@ -1,0 +1,37 @@
+<?php Template::inherit('base_page'); ?>
+
+<?php Template::block('title'); ?>
+
+<?php echo _(sprintf("Registration on %s", SOFTWARE_NAME)) ?>
+
+<?php Template::endBlock(); ?>
+
+
+<?php Template::block('content'); ?>
+
+<?php echo nl2br(_(<<<TEXT
+To register on our file sharing service, please enter your e-mail address and password.
+Name is optionaly.
+TEXT
+)) ?>
+
+<?php if (!empty($message)): ?>
+
+	<div class="b-message__error">
+		<p><?php echo $message ?></p>
+	</div>
+
+<?php endif; ?>
+
+
+<form method="post" action="/users/create" class="b-form b-form__register">
+	<label for="email"><?php echo _("Email:") ?><span class="asterisk"> *</span></label>
+	<input type="email" name="email" id="email" required value="<?php echo isset($form) ? $form['email'] : '' ?>">
+	<label for="passwd"><?php echo _("Password:") ?><span class="asterisk"> *</span></label>
+	<input type="password" id="passwd" name="passwd" required>
+	<label for="name"><?php echo _("Display name:") ?></label>
+	<input type="text" id="name" name="name" value="<?php echo isset($form) ? $form['name'] : '' ?>">
+	<br><input type="submit" value="<?php echo _("Create account") ?>">
+</form>
+
+<?php Template::endBlock(); ?>
