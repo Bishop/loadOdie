@@ -1,4 +1,4 @@
-<?php Template::inherit('base_page'); ?>
+<?php Template::inherit('main_page'); ?>
 
 <?php Template::block('title'); ?>
 
@@ -16,9 +16,9 @@
 <table class="b-list__files">
 	<thead>
 		<tr>
-			<th><?php echo _("File name") ?></th>
+			<th><a href="/sort/original_name"><?php echo _("File name") ?></a></th>
 			<th><?php echo _("Size") ?></th>
-			<th><?php echo _("Upload date") ?></th>
+			<th><a href="/sort/upload"><?php echo _("Upload date") ?></a></th>
 			<th><?php echo _("Download url") ?></th>
 			<th><?php echo _("Comments") ?></th>
 		</tr>
@@ -28,8 +28,8 @@
 			<td><?php echo $file['original_name'] ?></td>
 			<td><?php echo Utils::fileSize($file['size']) ?></td>
 			<td><?php echo $file['upload'] ?></td>
-			<td><a href="/files/download/<?php echo $file['file_name'] ?>"><?php echo _("Download") ?></a></td>
-			<td><a href="/files/detail/<?php echo $file['id'] ?>"><?php echo _("Comments") ?></a></td>
+			<td><a href="/files/download/name/<?php echo $file['file_name'] ?>"><?php echo _("Download") ?></a></td>
+			<td><a href="/files/detail/id/<?php echo $file['id'] ?>"><?php echo _("Comments") ?></a></td>
 		</tr>
 		<?php endforeach; ?>
 	<tbody>

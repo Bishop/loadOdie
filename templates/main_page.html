@@ -1,0 +1,17 @@
+<?php Template::inherit('base_page') ?>
+
+<?php Template::block('title'); ?>
+
+<?php echo $title ?>
+
+<?php Template::endBlock(); ?>
+
+<?php Template::block('content'); ?>
+
+<div id="user_info">
+	<?php Template::incl('user_info') ?>
+</div>
+
+<?php echo $content ?>
+
+<?php Template::endBlock(); ?>
