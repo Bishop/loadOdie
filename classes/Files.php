@@ -8,14 +8,41 @@
 class Files extends RequestHandler {
 	protected $default_action = 'show_all';
 
-	public $files_per_page = 25;
+	public $files_per_page = 5;
 
 	/**
 	 * @request_handler
 	 * @return array
 	 */
 	public function show_all($params) {
-		return array('data' => array('files' => $this->getFiles()));
+		$class = strtolower(get_class($this));
+
+		$orders = array(
+			'name' => 'original_name',
+			'upload' => 'upload DESC'
+		);
+		$sort = empty($params['sort']) ? 'upload' : $params['sort'];
+
+		$query = SqlBuilder::newQuery()->from('file')->select('*')->where('public', 1)->order($orders[$sort])->limit($this->files_per_page);
+
+		$db = DB::getInstance();
+
+		return array('data' => array(
+			'files' => $db->query($query->getSql())->fetchAll(),
+			'base_url' => "/$class/" . __FUNCTION__ . "/sort/$sort",
+		));
+	}
+
+	/**
+	 * @request_handler
+	 * @return array
+	 */
+	public function detail($params) {
+		return array(
+			'data' => array(
+				'file' => $this->getFiles($params)
+			)
+		);
 	}
 
 	/**
@@ -23,9 +50,7 @@ class Files extends RequestHandler {
 	 * @return array
 	 */
 	public function upload($params) {
-		$result = array('data' => $_SESSION['upload_data']);
-		unset($_SESSION['upload_data']);
-		return $result;
+		return array('data' => User::getFormData());
 	}
 
 	/**
@@ -38,12 +63,15 @@ class Files extends RequestHandler {
 		$processed_files = array();
 
 		$db = DB::getInstance();
+
+		$user_id = User::info('id') or $user_id = 0;
+
 		$insert_file = $db->prepare("
 			INSERT INTO
 				`file`
-				(`file_name`, `original_name`, `type`, `size`, `description`)
+				(`file_name`, `original_name`, `type`, `size`, `description`, `user_id`)
 			VALUES 
-				(:file_name, :original_name, :type, :size, :description)
+				(:file_name, :original_name, :type, :size, :description, $user_id)
 		");
 
 		$ip = $db->quote(ip2long($_SERVER['REMOTE_ADDR']));
@@ -92,11 +120,5 @@ class Files extends RequestHandler {
 
 		$error_message = nl2br(trim($error_message));
 		return array('redirect' => 'upload', 'data' => compact('processed_files', 'error_message'));
-	}
-
-	protected function getFiles() {
-		$query = SqlBuilder::newQuery()->from('file')->select('*')->where('public', 1)->order('upload DESC')->limit($this->files_per_page);
-		$db = DB::getInstance();
-		return $db->query($query->getSql())->fetchAll();
 	}
 }

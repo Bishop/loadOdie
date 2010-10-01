@@ -32,13 +32,12 @@
 
 <?php endif; ?>
 
-<form enctype="multipart/form-data" method="post" action="/files/put">
+<form enctype="multipart/form-data" method="post" action="/files/put" class="b-form">
 	<label for="attach"><?php echo _("Select file:") ?></label>
 	<input type="file" name="attach[]" id="attach">
-	<br>
 	<label for="description"><?php echo _("Description:") ?></label>
 	<textarea name="description" id="description" rows="5" cols="80"></textarea>
-	<br>
+	<br><br>
 	<input type="submit" value="<?php echo _("Upload file") ?>">
 </form>
 
