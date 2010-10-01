@@ -15,10 +15,16 @@ class User {
 	}
 
 	public static function getFormData() {
-		return isset($_SESSION['post_data']) ? $_SESSION['post_data'] : array();
+		$result = isset($_SESSION['post_data']) ? $_SESSION['post_data'] : array();
+		unset($_SESSION['post_data']);
+		return $result;
 	}
 
 	public static function storeFormData($data) {
 		$_SESSION['post_data'] = $data;
+	}
+
+	public static function setAuth($user) {
+		$_SESSION['user'] = $user;
 	}
 }

@@ -1,0 +1,38 @@
+<?php Template::inherit('base_page'); ?>
+
+<?php Template::block('title'); ?>
+
+<?php echo _(sprintf("Login on %s", SOFTWARE_NAME)) ?>
+
+<?php Template::endBlock(); ?>
+
+
+<?php Template::block('content'); ?>
+
+<?php echo _('Login screen') ?>
+
+<?php if (!empty($message)): ?>
+
+	<div class="b-message__error">
+		<p><?php echo $message ?></p>
+	</div>
+
+<?php endif; ?>
+
+<?php if (isset($register_success)): ?>
+
+	<div class="b-message__ok">
+		<p><?php echo _('Register successful. Please log in.') ?></p>
+	</div>
+
+<?php endif; ?>
+
+<form method="post" action="/users/enter" class="b-form">
+	<label for="email"><?php echo _("Email:") ?></label>
+	<input type="email" name="email" id="email" required value="<?php echo isset($form) ? $form['email'] : '' ?>">
+	<label for="passwd"><?php echo _("Password:") ?></label>
+	<input type="password" id="passwd" name="passwd" required>
+	<br><input type="submit" value="<?php echo _("Login") ?>">
+</form>
+
+<?php Template::endBlock(); ?>
