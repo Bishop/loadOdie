@@ -1,9 +1,44 @@
+/* reset */
 * {
 	padding: 0;
 	margin: 0;
 }
 
 body {
-	font-family: Tahoma, Arial, sans-serif;
 	font-size: 8pt;
+	font-family: "Tahoma", "Arial", sans-serif;
+}
+
+/* layout */
+
+#wrapper {
+	max-width: 1000px;
+	margin: 0 auto;
+}
+
+#user_info {
+	position: absolute;
+	top: 0;
+	right: 0;
+	width: 100%;
+}
+
+#user_info p {
+	margin: 0 auto;
+	max-width: 1000px;
+	text-align: right;
+}
+
+#top {
+	padding: 1em 0;
+}
+
+/* styles */
+
+.b-form input, .b-form label {
+	display: block;
+}
+
+.b-form label {
+	margin-top: 0.5em;
 }
