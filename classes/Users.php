@@ -26,7 +26,7 @@ class Users extends RequestHandler {
 
 		$message = '';
 		$db = DB::getInstance();
-		$q_user = $db->query("SELECT `id`, `email`, `passwd`, IF(`name` = '', `email`, `name`) `name` FROM `user` WHERE `email` = " . $db->quote($post['email']) . "LIMIT 1");
+		$q_user = $db->query(SqlBuilder::newQuery()->from('user')->select('*')->where('email', $db->quote($post['email']))->limit(1)->getSql());
 		if ($q_user->rowCount() == 0) {
 			$message = _('Entered email not registered');
 		} else {
@@ -34,6 +34,7 @@ class Users extends RequestHandler {
 			if ($user['passwd'] != $post['passwd']) {
 				$message = _('Incorrect password');
 			} else {
+				empty($user['name']) and $user['name'] = $user['email'];
 				User::setAuth($user);
 			}
 		}
