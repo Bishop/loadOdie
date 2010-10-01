@@ -47,7 +47,7 @@ class Users extends RequestHandler {
 	 */
 	public function logout($params) {
 		User::setAuth(null);
-		return array('redirect' => 'profile/');
+		return array('redirect' => 'login');
 	}
 
 	/**
