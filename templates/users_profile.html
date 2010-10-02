@@ -1,0 +1,84 @@
+<?php Template::inherit('main_page'); ?>
+
+<?php Template::block('title'); ?>
+
+<?php echo _("User profile") ?>
+
+<?php Template::endBlock(); ?>
+
+
+<?php Template::block('content'); ?>
+
+<a class="b-button__big" href="/files/upload/"><?php echo _("Upload file") ?></a>
+
+<h2><?php echo _("Your files") ?></h2>
+
+<p class="b-info"><?php echo _("Link to your catalog: ") ?><a href="<?php echo $user_url ?>"><?php echo $user_url ?></a></p>
+
+
+<?php if (!empty($message)): ?>
+
+<div class="b-message__error">
+	<p><?php echo $message ?></p>
+</div>
+
+<?php endif; ?>
+
+<?php if (isset($change_success) && $change_success): ?>
+
+<div class="b-message__ok">
+	<p><?php echo _('Changes successful applied') ?></p>
+</div>
+
+<?php endif; ?>
+
+<form action="/users/change_my_files" method="post">
+
+<table class="b-list__files">
+	<thead>
+		<tr>
+			<th>&nbsp;</th>
+			<th><a href="<?php echo $base_url ?>/sort/name"><?php echo _("File name") ?></a></th>
+			<th><?php echo _("Size") ?></th>
+			<th><a href="<?php echo $base_url ?>/sort/upload"><?php echo _("Upload date") ?></a></th>
+			<th><?php echo _("Type") ?></th>
+			<th><?php echo _("Access") ?></th>
+			<th><?php echo _("Comments") ?></th>
+			<th><?php echo _("Download url") ?></th>
+			<th><?php echo _("Comments url") ?></th>
+		</tr>
+	</thead>
+		<?php foreach ($files as $file): ?>
+		<tr>
+			<td><input type="checkbox" name="ids[]" value="<?php echo $file['id'] ?>"></td>
+			<td><?php echo $file['original_name'] ?></td>
+			<td><?php echo Utils::fileSize($file['size']) ?></td>
+			<td><?php echo $file['upload'] ?></td>
+			<td><?php echo $file['type'] ?></td>
+			<td><?php echo $file['public'] ? _("Public") : _("Private") ?></td>
+			<td><?php echo $file['comments'] ? _("Enabled") : _("Disabled") ?></td>
+			<td><a href="/files/download/name/<?php echo $file['file_name'] ?>"><?php echo _("Download") ?></a></td>
+			<td><a href="/files/detail/file_id/<?php echo $file['id'] ?>"><?php echo _("Comments") ?></a></td>
+		</tr>
+		<?php endforeach; ?>
+	<tbody>
+
+	</tbody>
+</table>
+
+<?php Template::incl('pagination', compact('page', 'pages', 'base_url')) ?>
+
+<div class="b-options">
+	<h3><?php echo _("Modify selected files") ?></h3>
+	<label><input type="radio" name="action" value="+public"><?php echo _('Set public') ?></label>
+	<label><input type="radio" name="action" value="-public"><?php echo _('Set private') ?></label>
+	<label><input type="radio" name="action" value="+comments"><?php echo _('Enable comments') ?></label>
+	<label><input type="radio" name="action" value="-comments"><?php echo _('Disable comments') ?></label>
+	<label><input type="radio" name="action" value="delete"><?php echo _('Delete') ?></label>
+</div>
+
+<input type="submit" value="Change">
+
+</form>
+
+<?php Template::endBlock(); ?>

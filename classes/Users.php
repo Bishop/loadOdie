@@ -88,4 +88,58 @@ class Users extends RequestHandler {
 		}
 		return array('data' => array('message' => $message, 'register_success' => empty($message), 'form' => $post), 'redirect' => empty($message) ? 'login' : 'register');
 	}
+
+	/**
+	 * @request_handler
+	 * @return array
+	 */
+	public function profile($params) {
+		$files = new Files();
+		$params['user_id'] = User::info('id');
+		$result = $files->show_all($params);
+		$re = '!^(/\w+/\w+/user_id/\d+)(.*)!';
+		$result['data']['user_url'] = (empty($_SERVER["HTTPS"]) ? 'http' : 'https') . '://' . $_SERVER["HTTP_HOST"] . preg_replace($re, '$1', $result['data']['base_url']);
+		$result['data']['base_url'] = preg_replace($re, '/users/' . __FUNCTION__, $result['data']['base_url']);
+		$result['data'] += User::getFormData();
+		return $result;
+	}
+
+	/**
+	 * @request_handler
+	 * @return array
+	 */
+	public function change_my_files($params) {
+		$message = '';
+		$action = filter_input(INPUT_POST, 'action');
+		$ids = filter_input(INPUT_POST, 'ids', FILTER_VALIDATE_INT, FILTER_REQUIRE_ARRAY);
+		$change_success = false;
+
+		if (!(empty($action) || empty($ids))) {
+			try {
+				if ($action == 'delete') {
+					$this->delete_files($ids);
+				} else {
+					$fields = array('public', 'comments');
+					$values = array('+' => 1, '-' => 0);
+					if (preg_match('/([+-])(\w+)/', $action, $matches)) {
+						list(, $value, $field) = $matches;
+						if (in_array($field, $fields) && array_key_exists($value, $values)) {
+							$ids = array_map(array(DB::getInstance(), 'quote'), $ids);
+							$sql = "UPDATE `file` SET `$field` = {$values[$value]} WHERE `id` IN (" . implode(',', $ids) . ")";
+							DB::getInstance()->exec($sql);
+							$change_success = true;
+						}
+					}
+				}
+			} catch (Exception $e) {
+				$message = $e->getMessage();
+			}
+		}
+
+		return array('redirect' => 'profile', 'data' => compact('message', 'change_success'));
+	}
+
+	protected function delete_files($ids) {
+
+	}
 }

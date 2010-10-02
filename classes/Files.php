@@ -27,10 +27,14 @@ class Files extends RequestHandler {
 		$db = DB::getInstance();
 		$base_url = "/$class/" . __FUNCTION__;
 
-		$query = SqlBuilder::newQuery()->from('file')->select('*')->where('public', 1)->order($orders[$sort]);
+		$query = SqlBuilder::newQuery()->from('file')->select('*')->order($orders[$sort]);
 		if (!empty($params['user_id'])) {
 			$query->where('user_id', $db->quote($params['user_id']));
 			$base_url .= "/user_id/" . $params['user_id'];
+		}
+
+		if (empty($params['user_id']) || $params['user_id'] != User::info('id')) {
+			$query->where('public', 1);
 		}
 
 		$query_count = clone $query;
