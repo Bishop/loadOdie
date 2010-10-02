@@ -9,6 +9,40 @@
 
 <?php Template::block('content'); ?>
 
+<h2><?php echo _("File details") ?></h2>
 
+<dl>
+	<dt><?php echo _("File name:") ?></dt>
+	<dd><?php echo $file['original_name'] ?></dd>
+
+	<dt><?php echo _("File type:") ?></dt>
+	<dd><?php echo $file['type'] ?></dd>
+
+	<dt><?php echo _("File size:") ?></dt>
+	<dd><?php echo Utils::fileSize($file['size']) ?></dd>
+
+	<dt><?php echo _("Description:") ?></dt>
+	<dd><?php echo nl2br($file['description']) ?></dd>
+
+	<dt><?php echo _("Uploades:") ?></dt>
+	<dd><?php echo $file['upload'] ?></dd>
+
+	<dt><?php echo _("Link:") ?></dt>
+	<dd><?php echo $file['file_name'] ?></dd>
+</dl>
+
+<h2><?php echo _("Comments") ?></h2>
+
+<?php foreach ($comments as $comment): ?>
+
+<div class="b-comment <?php echo $comment['level'] ? '' : 'b-comment__thread_start' ?>" style="margin-left: <?php echo $comment['level']*2 ?>em">
+	<div class="b-name__comment"><?php echo $comment['name'] ?> (<?php echo $comment['added'] ?>):</div>
+	<div class="b-text__comment"><?php echo nl2br($comment['comment']) ?></div>
+	<div class="b-text__reply">
+		<a class="b-link" href="/files/comment/id/<?php echo $file['id'] ?>/reply/<?php echo $comment['id'] ?>"><?php echo _("Reply") ?></a>
+	</div>
+</div>
+
+<?php endforeach; ?>
 
 <?php Template::endBlock(); ?>

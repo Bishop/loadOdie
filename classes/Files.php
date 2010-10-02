@@ -8,7 +8,7 @@
 class Files extends RequestHandler {
 	protected $default_action = 'show_all';
 
-	public $files_per_page = 5;
+	public $files_per_page = 10;
 
 	/**
 	 * @request_handler
@@ -38,11 +38,38 @@ class Files extends RequestHandler {
 	 * @return array
 	 */
 	public function detail($params) {
-		return array(
-			'data' => array(
-				'file' => $this->getFiles($params)
-			)
-		);
+		empty($params['id']) and Template::show404Page();
+
+		$db = DB::getInstance();
+
+		$file = $db->query(SqlBuilder::newQuery()->from('file')->select('*')->where('id', $params['id'])->limit(1)->getSql())->fetch() or Template::show404Page();
+
+		$sorted_comments = array();
+
+		$comments = $db->query(SqlBuilder::newQuery()->from('comment')->select('*')->where('file_id', $params['id'])->order('id ASC')->join('user_id', 'user', 'id')->from('user')->select('name')->select('email')->getSql())->fetchAll(PDO::FETCH_ASSOC) or $comments = array();
+
+		$map = array();
+		foreach ($comments as &$comment) {
+			$map[$comment['id']] = array('id' => $comment['id'], 'reply' => $comment['reply_to'], 'reply_to' => $comment['reply_to'], 'level' => 0);
+			empty($comment['name']) and $comment['name'] = reset(explode('@', $comment['email']));
+			unset($comment['email']);
+		}
+
+		$comments = $this->comment_sort($comments, null);
+
+		return array('data' => compact('file', 'comments'));
+	}
+
+	protected function comment_sort($comments, $item, $level = 0) {
+		$result = array();
+		foreach ($comments as $comment) {
+			if ($comment['reply_to'] == $item) {
+				$comment['level'] = $level;
+				$result[] = $comment;
+				$result = array_merge($result, $this->comment_sort($comments, $comment['id'], $level + 1));
+			}
+		}
+		return $result;
 	}
 
 	/**
