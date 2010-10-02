@@ -21,14 +21,16 @@
 	<dt><?php echo _("File size:") ?></dt>
 	<dd><?php echo Utils::fileSize($file['size']) ?></dd>
 
+	<?php if ($file['description']): ?>
 	<dt><?php echo _("Description:") ?></dt>
 	<dd><?php echo nl2br($file['description']) ?></dd>
+	<?php endif; ?>
 
 	<dt><?php echo _("Uploades:") ?></dt>
 	<dd><?php echo $file['upload'] ?></dd>
 
 	<dt><?php echo _("Link:") ?></dt>
-	<dd><a href="/files/download/name/<?php echo $file['file_name'] ?>"><?php echo _("Download") ?></a></dd>
+	<dd><a class="b-link__download" href="/files/download/name/<?php echo $file['file_name'] ?>"><?php echo _("Download") ?></a></dd>
 </dl>
 
 <h2><?php echo _("Comments") ?></h2>

@@ -8,14 +8,12 @@
 
 
 <?php Template::block('content'); ?>
-<p>
-	<?php echo($message); ?>
+<p class="b-message__info">
+	<?php echo($message) ?>
 </p>
 
 <p>
-	<a href="<?php echo FULL_REQUEST; ?>"><?php echo _('Refresh page') ?></a>
-</p>
-<p>
+	<a href="<?php echo FULL_REQUEST; ?>"><?php echo _('Refresh page') ?></a>&nbsp;&nbsp;&nbsp;
 	<a href="/"><?php echo _('Home page') ?></a>
 </p>
 

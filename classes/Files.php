@@ -8,7 +8,7 @@
 class Files extends RequestHandler {
 	protected $default_action = 'show_all';
 
-	public $files_per_page = 10;
+	public $files_per_page = 25;
 
 	/**
 	 * @request_handler

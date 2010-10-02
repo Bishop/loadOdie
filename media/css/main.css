@@ -52,10 +52,11 @@ a {
 }
 
 .b-button__big {
-	border: green 1px solid;
+	border: green 2px solid;
 	border-radius: 5px;
 	padding: 0.5em 1em;
 	margin: 0.5em 0;
+	font-size: 14pt;
 }
 
 a.b-button__big {
@@ -71,6 +72,11 @@ a.b-button__big:hover {
 
 h2 {
 	font-size: 14pt;
+	margin-top: 1em;
+}
+
+h3 {
+	font-size: 12pt;
 	margin-top: 1em;
 }
 
@@ -121,3 +127,63 @@ h2 {
 		background-color: white;
 		color: #2f4f4f;
 	}
+
+dl {
+	margin-top: 1em;
+}
+
+dd {
+	padding-left: 4em;
+	font-weight: bold;
+}
+
+.b-comment {
+	margin-top: 0.2em;
+}
+	.b-comment .b-text__comment {
+		font-size: 1.1em;
+		padding: 0.2em 0;
+	}
+
+.b-comment:hover {
+	background-color: #f2f2f2;
+}
+
+.b-comment__thread_start {
+	margin-top: 1em;
+}
+
+.b-message__error {
+	border: 1px solid red;
+	background-color: red;
+	border-radius: 5px;
+	font-size: 16pt;
+	padding: 0.5em;
+	margin: 0.5em 0;
+	color: white;
+}
+
+.b-message__ok {
+	border: 1px solid green;
+	background-color: green;
+	border-radius: 5px;
+	font-size: 16pt;
+	padding: 0.5em;
+	margin: 0.5em 0;
+	color: white;
+}
+
+.b-message__info, .b-message__info a {
+	border: 1px solid blue;
+	background-color: blue;
+	border-radius: 5px;
+	font-size: 16pt;
+	padding: 0.5em;
+	margin: 0.5em 0;
+	color: white;
+}
+
+.b-options label {
+	margin: 1em 1em 1em 0;
+	display: inline-block;
+}
