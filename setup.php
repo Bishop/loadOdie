@@ -28,6 +28,65 @@ function verify_directory($directory) {
 	return true;
 }
 
+function create_structure() {
+	$db = DB::getInstance();
+
+	$sqls = array(
+		"
+			CREATE TABLE IF NOT EXISTS `user` (
+				`id` BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+				`email` VARCHAR(200) NOT NULL,
+				`passwd` VARCHAR(200) NOT NULL,
+				`name` VARCHAR(200) NOT NULL,
+				`joined` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+				PRIMARY KEY (`id`),
+				UNIQUE INDEX `email` (`email`)
+			) COLLATE='utf8_general_ci' ENGINE=InnoDB
+		",
+		"
+			CREATE TABLE IF NOT EXISTS `file` (
+				`id` BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+				`file_name` VARCHAR(250) NOT NULL,
+				`user_id` BIGINT(20) UNSIGNED NOT NULL,
+				`original_name` VARCHAR(250) NOT NULL,
+				`type` VARCHAR(50) NOT NULL,
+				`size` BIGINT(20) UNSIGNED NOT NULL,
+				`description` TEXT NULL,
+				`public` TINYINT(1) UNSIGNED NOT NULL DEFAULT '1',
+				`comments` TINYINT(1) UNSIGNED NOT NULL DEFAULT '1',
+				`upload` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+				PRIMARY KEY (`id`),
+				UNIQUE INDEX `file_name` (`file_name`)
+			) COLLATE='utf8_general_ci' ENGINE=InnoDB
+		",
+		"
+			CREATE TABLE IF NOT EXISTS `upload` (
+				`file_id` BIGINT(20) UNSIGNED NOT NULL,
+				`ip` INT(11) NOT NULL,
+				`user_agent` TEXT NOT NULL,
+				UNIQUE INDEX `file_id` (`file_id`)
+			) COLLATE='utf8_general_ci' ENGINE=InnoDB
+		",
+		"
+			CREATE TABLE IF NOT EXISTS `comment` (
+				`id` BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+				`file_id` BIGINT(20) UNSIGNED NOT NULL,
+				`reply_to` BIGINT(20) UNSIGNED NULL DEFAULT NULL,
+				`user_id` BIGINT(20) UNSIGNED NULL DEFAULT NULL,
+				`comment` TEXT NOT NULL,
+				`added` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+				PRIMARY KEY (`id`)
+			) COLLATE='utf8_general_ci' ENGINE=InnoDB
+		",
+	);
+
+	foreach ($sqls as $sql) {
+		$db->exec($sql);
+	}
+}
+
+/* PROCESS */
+
 if (file_exists(CONFIG_FILE) && !confirm(sprintf("Config file '%s' exists. Continue and overwrite it?", CONFIG_FILE))) {
 	exit();
 }
@@ -45,6 +104,15 @@ foreach ($questions as $question) {
 	} while (function_exists($question['callback']) && !call_user_func($question['callback'], $answer));
 
 	$config[$question['name']] = $answer;
+}
+
+Config::setConfig($config);
+
+try {
+	create_structure();
+} catch (Exception $e) {
+	echo $e->getMessage() . "\n\n";
+	die();
 }
 
 $config_file = fopen(ROOT_DIR . CONFIG_FILE, 'w');

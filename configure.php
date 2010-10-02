@@ -64,4 +64,4 @@ class Config {
 	}
 }
 
-Config::setConfig(parse_ini_file(ROOT_DIR . CONFIG_FILE));
+file_exists(ROOT_DIR . CONFIG_FILE) and Config::setConfig(parse_ini_file(ROOT_DIR . CONFIG_FILE));

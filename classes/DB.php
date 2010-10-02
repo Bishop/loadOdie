@@ -15,6 +15,7 @@ class DB {
 	private function __construct() {}
 
 	public static function connect($connection_string) {
+		$message = '';
 		if (preg_match(CONNECTION_STRING_FORMAT, $connection_string, $matches)) {
 			list(, $user, $pass, $host, $port, $db) = $matches;
 			empty($port) and $port = "3306";
@@ -23,10 +24,18 @@ class DB {
 					array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8"));
 				self::$db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 			} catch (PDOException $e) {
-				Template::showErrorPage(_('Connection failed: ') . $e->getMessage());
+				$message = _('Connection failed: ') . $e->getMessage();
 			}
 		} else {
-			Template::showErrorPage(_('Invalid database connection string'));
+			$message = _('Invalid database connection string');
+		}
+
+		if ($message) {
+			if (PHP_SAPI == 'cli') {
+				throw new Exception($message);
+			} else {
+				Template::showErrorPage($message);
+			}
 		}
 	}
 
