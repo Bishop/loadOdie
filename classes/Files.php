@@ -233,8 +233,8 @@ class Files extends RequestHandler {
 		header("Content-Type: {$file['type']}");
 		header("Accept-Ranges: bytes");
 		header("Content-Length: {$file['size']}");
-		header("Content-Disposition: inline; filename={$file['original_name']}");
-		header('Content-Transfer-Encoding: binary');
+		header("Content-Disposition: attachment; filename={$file['original_name']}");
+		header("Content-Transfer-Encoding: binary");
 
 		readfile($dir . $file['file_name']);
 	}
