@@ -1,0 +1,6 @@
+Install:
+	— Create database for application.
+	— Run setup.php script (php setup.php).
+	— Enter database connection string in format mysql://user[:pass]@host[:port]/database
+	  User must have permission to creating tables in database.
+	— Enjoy.
