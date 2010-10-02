@@ -28,7 +28,7 @@ class SqlBuilder {
 	}
 
 	public function select() {
-		$this->tables[$this->active_table]['select'] += func_get_args();
+		$this->tables[$this->active_table]['select'] = array_merge($this->tables[$this->active_table]['select'], func_get_args());
 		return $this;
 	}
 
@@ -71,11 +71,13 @@ class SqlBuilder {
 		$sql = 'SELECT ' . implode(', ', $select);
 		$from = array_combine(array_keys($this->tables), array_map(create_function('$a', 'return "`$a`";'), array_keys($this->tables)));
 
-		foreach ($this->joins as $table => $data) {
-			$from[$data['table']] = "JOIN `{$data['table']}` ON `$table`.`{$data['refs']}` = `{$data['table']}`.`{$data['field']}`";
+		foreach ($this->joins as $table => $table_data) {
+			foreach ($table_data as $data) {
+				$from[$data['table']] = "JOIN `{$data['table']}` ON `$table`.`{$data['refs']}` = `{$data['table']}`.`{$data['field']}`";
+			}
 		}
 
-		$sql .= ' FROM ' . implode(', ', array_values($from));
+		$sql .= ' FROM ' . implode(' ', array_values($from));
 		empty($where) or $sql .= ' WHERE ' . implode(' AND ', $where);
 		empty($order) or $sql .= ' ORDER BY ' . implode(', ', $order);
 		empty($this->limit) or $sql .= ' LIMIT ' . $this->limit;
