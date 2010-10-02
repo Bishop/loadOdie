@@ -216,4 +216,26 @@ class Files extends RequestHandler {
 		$error_message = nl2br(trim($error_message));
 		return array('redirect' => 'upload', 'data' => compact('processed_files', 'error_message'));
 	}
+
+	/**
+	 * @request_handler
+	 * @return array
+	 */
+	public function download($params) {
+		empty($params['name']) and Template::show404Page();
+
+		$db = DB::getInstance();
+		$file = $db->query(SqlBuilder::newQuery()->from('file')->select('*')->where('file_name', $db->quote($params['name']))->limit(1)->getSql())->fetch() or Template::show404Page();
+
+		$dir = rtrim(Config::getConfig('repository'), '\\/') . DIRECTORY_SEPARATOR;
+
+		ob_end_clean();
+		header("Content-Type: {$file['type']}");
+		header("Accept-Ranges: bytes");
+		header("Content-Length: {$file['size']}");
+		header("Content-Disposition: inline; filename={$file['original_name']}");
+		header('Content-Transfer-Encoding: binary');
+
+		readfile($dir . $file['file_name']);
+	}
 }
