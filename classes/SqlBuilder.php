@@ -52,7 +52,7 @@ class SqlBuilder {
 		return $this;
 	}
 
-	public function getSql() {
+	public function getSql($countOnly = false) {
 		$select = array();
 		$where = array();
 		$order = array();
@@ -68,7 +68,7 @@ class SqlBuilder {
 			}
 		}
 
-		$sql = 'SELECT ' . implode(', ', $select);
+		$sql = 'SELECT ' . ($countOnly ? 'COUNT(*)' : implode(', ', $select));
 		$from = array_combine(array_keys($this->tables), array_map(create_function('$a', 'return "`$a`";'), array_keys($this->tables)));
 
 		foreach ($this->joins as $table => $table_data) {

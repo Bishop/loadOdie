@@ -1,0 +1,13 @@
+<div class="b-pages">
+
+<?php foreach (range($page - 2, $page + 2) as $index): ?>
+
+<?php if ($index >= 1 && $index <= $pages): ?>
+
+<a href="<?php echo $base_url ?>/page/<?php echo $index ?>"><?php echo $index ?></a>
+
+<?php endif; ?>
+
+<?php endforeach; ?>
+
+</div>

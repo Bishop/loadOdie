@@ -11,7 +11,7 @@
 
 <a class="b-button__big" href="/files/upload/"><?php echo _("Upload file") ?></a>
 
-<p><?php echo _("Public files") ?></p>
+<h2><?php echo _("Public files") ?></h2>
 
 <table class="b-list__files">
 	<thead>
@@ -29,12 +29,14 @@
 			<td><?php echo Utils::fileSize($file['size']) ?></td>
 			<td><?php echo $file['upload'] ?></td>
 			<td><a href="/files/download/name/<?php echo $file['file_name'] ?>"><?php echo _("Download") ?></a></td>
-			<td><a href="/files/detail/file_id/<?php echo $file['id'] ?>"><?php echo _("Comments") ?></a></td>
+			<td><?php if ($file['comments']): ?><a href="/files/detail/file_id/<?php echo $file['id'] ?>"><?php echo _("Comments") ?></a><?php endif; ?></td>
 		</tr>
 		<?php endforeach; ?>
 	<tbody>
 
 	</tbody>
 </table>
+
+<?php Template::incl('pagination', compact('page', 'pages', 'base_url')) ?>
 
 <?php Template::endBlock(); ?>

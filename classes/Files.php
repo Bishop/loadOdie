@@ -22,14 +22,19 @@ class Files extends RequestHandler {
 			'upload' => 'upload DESC'
 		);
 		$sort = empty($params['sort']) ? 'upload' : $params['sort'];
+		$page = empty($params['page']) ? 1 : $params['page'];
 
-		$query = SqlBuilder::newQuery()->from('file')->select('*')->where('public', 1)->order($orders[$sort])->limit($this->files_per_page);
+		$query = SqlBuilder::newQuery()->from('file')->select('*')->where('public', 1)->order($orders[$sort]);
+		$query_count = clone $query;
+		$query->limit($this->files_per_page, ($page - 1) * $this->files_per_page);
 
 		$db = DB::getInstance();
 
 		return array('data' => array(
 			'files' => $db->query($query->getSql())->fetchAll(),
 			'base_url' => "/$class/" . __FUNCTION__ . "/sort/$sort",
+			'pages' => ceil($db->query($query_count->getSql(true))->fetchColumn() / $this->files_per_page),
+			'page' => $page,
 		));
 	}
 

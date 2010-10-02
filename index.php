@@ -11,7 +11,7 @@ $module = 'files';
 $action = '';
 $params = array();
 
-if (preg_match('!/(\w+)/?(\w+)?/?(.*)/?!', $_SERVER["PATH_INFO"], $chunks)) {
+if (!empty($_SERVER["PATH_INFO"]) && preg_match('!/(\w+)/?(\w+)?/?(.*)/?!', $_SERVER["PATH_INFO"], $chunks)) {
 	list(, $module, $action, $params_str) = $chunks;
 
 	if ($params_str) {
