@@ -28,7 +28,7 @@
 	<dd><?php echo $file['upload'] ?></dd>
 
 	<dt><?php echo _("Link:") ?></dt>
-	<dd><?php echo $file['file_name'] ?></dd>
+	<dd><a href="/files/download/name/<?php echo $file['file_name'] ?>"><?php echo _("Download") ?></a></dd>
 </dl>
 
 <h2><?php echo _("Comments") ?></h2>
@@ -39,10 +39,12 @@
 	<div class="b-name__comment"><?php echo $comment['name'] ?> (<?php echo $comment['added'] ?>):</div>
 	<div class="b-text__comment"><?php echo nl2br($comment['comment']) ?></div>
 	<div class="b-text__reply">
-		<a class="b-link" href="/files/comment/id/<?php echo $file['id'] ?>/reply/<?php echo $comment['id'] ?>"><?php echo _("Reply") ?></a>
+		<a class="b-link" href="/files/comment/id/<?php echo $file_id ?>/reply_to/<?php echo $comment['id'] ?>"><?php echo _("Reply") ?></a>
 	</div>
 </div>
 
 <?php endforeach; ?>
+
+<?php Template::incl('comment', compact('file_id', 'message')) ?>
 
 <?php Template::endBlock(); ?>

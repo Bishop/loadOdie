@@ -38,15 +38,17 @@ class Files extends RequestHandler {
 	 * @return array
 	 */
 	public function detail($params) {
-		empty($params['id']) and Template::show404Page();
+		empty($params['file_id']) and Template::show404Page();
+
+		$file_id = $params['file_id'];
 
 		$db = DB::getInstance();
 
-		$file = $db->query(SqlBuilder::newQuery()->from('file')->select('*')->where('id', $params['id'])->limit(1)->getSql())->fetch() or Template::show404Page();
+		$file = $db->query(SqlBuilder::newQuery()->from('file')->select('*')->where('id', $file_id)->limit(1)->getSql())->fetch() or Template::show404Page();
 
 		$sorted_comments = array();
 
-		$comments = $db->query(SqlBuilder::newQuery()->from('comment')->select('*')->where('file_id', $params['id'])->order('id ASC')->join('user_id', 'user', 'id')->from('user')->select('name')->select('email')->getSql())->fetchAll(PDO::FETCH_ASSOC) or $comments = array();
+		$comments = $db->query(SqlBuilder::newQuery()->from('comment')->select('*')->where('file_id', $file_id)->order('id ASC')->join('user_id', 'user', 'id')->from('user')->select('name')->select('email')->getSql())->fetchAll(PDO::FETCH_ASSOC) or $comments = array();
 
 		$map = array();
 		foreach ($comments as &$comment) {
@@ -57,7 +59,10 @@ class Files extends RequestHandler {
 
 		$comments = $this->comment_sort($comments, null);
 
-		return array('data' => compact('file', 'comments'));
+		$data = User::getFormData();
+		$message = isset($data['message']) ? $data['message'] : '';
+
+		return array('data' => compact('file', 'comments', 'file_id', 'message'));
 	}
 
 	protected function comment_sort($comments, $item, $level = 0) {
@@ -70,6 +75,36 @@ class Files extends RequestHandler {
 			}
 		}
 		return $result;
+	}
+
+	/**
+	 * @request_handler
+	 * @return array
+	 */
+	public function add_comment($params) {
+		$user_id = User::info('id');
+		$file_id = filter_input(INPUT_POST, 'file_id');
+		$reply_to = filter_input(INPUT_POST, 'reply_to');
+		$comment = filter_input(INPUT_POST, 'comment');
+
+		$message = '';
+		if (!(empty($user_id) || empty($file_id) || empty($comment))) {
+			try {
+				$db = DB::getInstance();
+				$insert_comment = $db->prepare("
+					INSERT INTO
+						`comment`
+						(`file_id`, `reply_to`, `user_id`, `comment`, `added`)
+					VALUES
+						(:file_id, :reply_to, :user_id, :comment, NOW())
+				");
+				$insert_comment->execute(compact('user_id', 'file_id', 'reply_to', 'comment'));
+			} catch (PDOException $e) {
+				$message = $e->getMessage();
+			}
+		}
+
+		return array('redirect' => "detail/file_id/$file_id", 'data' => compact('message'));
 	}
 
 	/**

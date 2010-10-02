@@ -53,8 +53,8 @@ class Template {
 		array_push(self::$process, array('template' => $name));
 	}
 
-	protected static function incl($name) {
+	protected static function incl($name, $args = array()) {
 		array_push(self::$process, array('include' => $name));
-		self::showPage($name);
+		self::showPage($name, $args);
 	}
 }

@@ -1,0 +1,28 @@
+<?php if (!empty($message)): ?>
+
+<div class="b-message__error">
+	<p><?php echo $message ?></p>
+</div>
+
+<?php endif; ?>
+
+<?php if (User::isLogged()): ?>
+
+<form method="post" action="/files/add_comment" class="b-form">
+	<input type="hidden" name="file_id" value="<?php echo $file_id ?>">
+	<?php if(isset($reply_to)): ?>
+	<input type="hidden" name="reply_to" value="<?php echo $reply_to ?>">
+	<?php endif; ?>
+	<label for="comment"><?php echo _("Your comment:") ?></label>
+	<textarea name="comment" id="comment" rows="3" cols="80"></textarea>
+	<br><br>
+	<input type="submit" value="<?php echo _("Add comment") ?>">
+</form>
+
+<?php else: ?>
+
+<div class="b-message__error">
+	<p><?php echo _("You must be logged to write comments.") ?></p>
+</div>
+
+<?php endif; ?>
