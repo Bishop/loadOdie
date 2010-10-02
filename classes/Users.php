@@ -140,6 +140,15 @@ class Users extends RequestHandler {
 	}
 
 	protected function delete_files($ids) {
-
+		$db = DB::getInstance();
+		$ids = array_map(array($db, 'quote'), $ids);
+		$dir = rtrim(Config::getConfig('repository'), '\\/') . DIRECTORY_SEPARATOR;
+		$sql = "SELECT `id`, `file_name` FROM `file` WHERE `id` IN (" . implode(',', $ids) . ")";
+		$deleter = $db->prepare("DELETE FROM `file` WHERE `id` = :id");
+		foreach ($db->query($sql) as $file) {
+			if (unlink($dir . $file['file_name'])) {
+				$deleter->execute(array('id' => $file['id']));
+			}
+		}
 	}
 }
