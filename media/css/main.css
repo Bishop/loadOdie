@@ -5,7 +5,7 @@
 }
 
 body {
-	font-size: 8pt;
+	font-size: 10pt;
 	font-family: "Tahoma", "Arial", sans-serif;
 }
 
@@ -24,16 +24,24 @@ body {
 }
 
 #user_info p {
-	margin: 0 auto;
+	margin: 1.5em auto;
 	max-width: 1000px;
 	text-align: right;
 }
 
-#top {
+.b-info {
 	padding: 1em 0;
 }
 
 /* styles */
+
+a {
+	color: #2f4f4f;
+}
+
+#user_info p {
+	font-size: 12pt;
+}
 
 .b-form input, .b-form label {
 	display: block;
@@ -41,4 +49,27 @@ body {
 
 .b-form label {
 	margin-top: 0.5em;
+}
+
+.b-button__big {
+	border: green 1px solid;
+	border-radius: 5px;
+	padding: 0.5em 1em;
+	margin: 0.5em 0;
+}
+
+a.b-button__big {
+	text-decoration: none;
+	color: green;
+	font-weight: bold;
+}
+
+a.b-button__big:hover {
+	color: white;
+	background-color: green;
+}
+
+h2 {
+	font-size: 14pt;
+	margin-top: 1em;
 }
