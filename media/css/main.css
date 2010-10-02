@@ -73,3 +73,51 @@ h2 {
 	font-size: 14pt;
 	margin-top: 1em;
 }
+
+.b-list__files {
+	width: 100%;
+	border: #2f4f4f 1px solid;
+	border-collapse: collapse;
+}
+
+.b-list__files td, .b-list__files th {
+	text-align: center;
+	padding: 0.5em 0.5em;
+}
+
+	.b-list__files th {
+		background-color: #2f4f4f;
+		color: white;
+	}
+
+		.b-list__files th a {
+			color: white;
+			text-decoration: underline;
+		}
+
+	.b-list__files td.left, .b-list__files th.left {
+		text-align: left;
+	}
+
+	.b-list__files tbody tr:hover {
+		background-color: #f2f2f2;
+	}
+
+.b-link__download {
+	font-weight: bold;
+}
+
+.b-pages {
+	margin-top: 1em;
+}
+
+.b-pages a.b-link__pages {
+	padding: 0.4em;
+	color: white;
+	background-color: #2f4f4f;
+	border: #2f4f4f 1px solid;
+}
+	.b-pages a.b-link__pages:hover {
+		background-color: white;
+		color: #2f4f4f;
+	}

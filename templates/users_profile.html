@@ -40,26 +40,26 @@
 	<thead>
 		<tr>
 			<th>&nbsp;</th>
-			<th><a href="<?php echo $base_url ?>/sort/name"><?php echo _("File name") ?></a></th>
+			<th class="left"><a href="<?php echo $base_url ?>/sort/name"><?php echo _("File name") ?></a></th>
 			<th><?php echo _("Size") ?></th>
 			<th><a href="<?php echo $base_url ?>/sort/upload"><?php echo _("Upload date") ?></a></th>
 			<th><?php echo _("Type") ?></th>
 			<th><?php echo _("Access") ?></th>
 			<th><?php echo _("Comments") ?></th>
-			<th><?php echo _("Download url") ?></th>
-			<th><?php echo _("Comments url") ?></th>
+			<th><?php echo _("Download Url") ?></th>
+			<th><?php echo _("Comments Url") ?></th>
 		</tr>
 	</thead>
 		<?php foreach ($files as $file): ?>
 		<tr>
 			<td><input type="checkbox" name="ids[]" value="<?php echo $file['id'] ?>"></td>
-			<td><?php echo $file['original_name'] ?></td>
+			<td class="left"><?php echo $file['original_name'] ?></td>
 			<td><?php echo Utils::fileSize($file['size']) ?></td>
 			<td><?php echo $file['upload'] ?></td>
 			<td><?php echo $file['type'] ?></td>
 			<td><?php echo $file['public'] ? _("Public") : _("Private") ?></td>
 			<td><?php echo $file['comments'] ? _("Enabled") : _("Disabled") ?></td>
-			<td><a href="/files/download/name/<?php echo $file['file_name'] ?>"><?php echo _("Download") ?></a></td>
+			<td><a class="b-link__download" href="/files/download/name/<?php echo $file['file_name'] ?>"><?php echo _("Download") ?></a></td>
 			<td><a href="/files/detail/file_id/<?php echo $file['id'] ?>"><?php echo _("Comments") ?></a></td>
 		</tr>
 		<?php endforeach; ?>
