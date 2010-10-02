@@ -46,8 +46,6 @@ class Files extends RequestHandler {
 
 		$file = $db->query(SqlBuilder::newQuery()->from('file')->select('*')->where('id', $file_id)->limit(1)->getSql())->fetch() or Template::show404Page();
 
-		$sorted_comments = array();
-
 		$comments = $db->query(SqlBuilder::newQuery()->from('comment')->select('*')->where('file_id', $file_id)->order('id ASC')->join('user_id', 'user', 'id')->from('user')->select('name')->select('email')->getSql())->fetchAll(PDO::FETCH_ASSOC) or $comments = array();
 
 		$map = array();
@@ -105,6 +103,25 @@ class Files extends RequestHandler {
 		}
 
 		return array('redirect' => "detail/file_id/$file_id", 'data' => compact('message'));
+	}
+
+	/**
+	 * @request_handler
+	 * @return array
+	 */
+	public function comment($params) {
+		(empty($params['file_id']) || empty($params['reply_to'])) and Template::show404Page();
+
+		$file_id = $params['file_id'];
+		$reply_to = $params['reply_to'];
+
+		$db = DB::getInstance();
+
+		$file = $db->query(SqlBuilder::newQuery()->from('file')->select('*')->where('id', $file_id)->limit(1)->getSql())->fetch() or Template::show404Page();
+
+		$comment = $db->query(SqlBuilder::newQuery()->from('comment')->select('*')->where('id', $reply_to)->getSql())->fetch() or Template::show404Page();
+
+		return array('data' => compact('file', 'comment', 'reply_to', 'file_id'));
 	}
 
 	/**

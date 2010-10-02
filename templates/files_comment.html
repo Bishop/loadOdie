@@ -1,0 +1,22 @@
+<?php Template::inherit('main_page'); ?>
+
+<?php Template::block('title'); ?>
+
+<?php echo _("Reply to comment") ?>
+
+<?php Template::endBlock(); ?>
+
+
+<?php Template::block('content'); ?>
+
+<div class="b-text">
+	<?php echo _('Reply to comment:') ?>
+	<?php echo $comment['comment'] ?>
+	<br>
+	<?php echo _('For file:') ?>
+	<?php echo $file['original_name'] ?>
+</div>
+
+<?php Template::incl('comment', compact('file_id', 'reply_to')) ?>
+
+<?php Template::endBlock(); ?>

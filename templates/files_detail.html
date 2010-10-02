@@ -39,7 +39,7 @@
 	<div class="b-name__comment"><?php echo $comment['name'] ?> (<?php echo $comment['added'] ?>):</div>
 	<div class="b-text__comment"><?php echo nl2br($comment['comment']) ?></div>
 	<div class="b-text__reply">
-		<a class="b-link" href="/files/comment/id/<?php echo $file_id ?>/reply_to/<?php echo $comment['id'] ?>"><?php echo _("Reply") ?></a>
+		<a class="b-link" href="/files/comment/file_id/<?php echo $file_id ?>/reply_to/<?php echo $comment['id'] ?>"><?php echo _("Reply") ?></a>
 	</div>
 </div>
 
