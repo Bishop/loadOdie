@@ -36,7 +36,7 @@ body {
 /* styles */
 
 a {
-	color: #2f4f4f;
+	color: #3e3e3e;
 }
 
 #user_info p {
@@ -82,7 +82,7 @@ h3 {
 
 .b-list__files {
 	width: 100%;
-	border: #2f4f4f 1px solid;
+	border: #3e3e3e 1px solid;
 	border-collapse: collapse;
 }
 
@@ -92,7 +92,7 @@ h3 {
 }
 
 	.b-list__files th {
-		background-color: #2f4f4f;
+		background-color: #3e3e3e;
 		color: white;
 	}
 
@@ -120,12 +120,12 @@ h3 {
 .b-pages a.b-link__pages {
 	padding: 0.4em;
 	color: white;
-	background-color: #2f4f4f;
-	border: #2f4f4f 1px solid;
+	background-color: #3e3e3e;
+	border: #3e3e3e 1px solid;
 }
 	.b-pages a.b-link__pages:hover {
 		background-color: white;
-		color: #2f4f4f;
+		color: #3e3e3e;
 	}
 
 dl {
@@ -174,8 +174,8 @@ dd {
 }
 
 .b-message__info, .b-message__info a {
-	border: 1px solid blue;
-	background-color: blue;
+	border: 1px solid #3366ff;
+	background-color: #3366ff;
 	border-radius: 5px;
 	font-size: 16pt;
 	padding: 0.5em;
