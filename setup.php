@@ -62,7 +62,7 @@ function create_structure() {
 		"
 			CREATE TABLE IF NOT EXISTS `upload` (
 				`file_id` BIGINT(20) UNSIGNED NOT NULL,
-				`ip` INT(11) NOT NULL,
+				`ip` INT(11) UNSIGNED NOT NULL,
 				`user_agent` TEXT NOT NULL,
 				UNIQUE INDEX `file_id` (`file_id`)
 			) COLLATE='utf8_general_ci' ENGINE=InnoDB
